@@ -111,4 +111,5 @@ const screen = getDomElementFromString(`<header class="header">
     </tr>
   </table>
 </section>`);
+
 export default screen;

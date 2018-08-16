@@ -59,9 +59,9 @@ const screen = getDomElementFromString(`<header class="header">
   </ul>
 </section>`);
 
-const getQuestion = (name) => Array.from(screen.querySelectorAll(`input[name=${name}]`));
-const question1 = getQuestion(`question1`);
-const question2 = getQuestion(`question2`);
+const getQuestionOptions = (name) => Array.from(screen.querySelectorAll(`input[name=${name}]`));
+const question1 = getQuestionOptions(`question1`);
+const question2 = getQuestionOptions(`question2`);
 const onRadioChange = () => {
   if (question1.some((x) => x.checked) && question2.some((x) => x.checked)) {
     selectScreen(gameTwoScreen);
