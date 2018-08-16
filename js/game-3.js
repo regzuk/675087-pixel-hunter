@@ -1,25 +1,7 @@
 import {getDomElementFromString} from './util.js';
-import {selectMainScreen as selectScreen} from './selectScreen.js';
-import statsScreen from './stats.js';
+import selectScreen from './selectScreen.js';
 
-const screen = getDomElementFromString(`<header class="header">
-  <button class="back">
-    <span class="visually-hidden">Вернуться к началу</span>
-    <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-      <use xlink:href="img/sprite.svg#arrow-left"></use>
-    </svg>
-    <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-      <use xlink:href="img/sprite.svg#logo-small"></use>
-    </svg>
-  </button>
-  <div class="game__timer">NN</div>
-  <div class="game__lives">
-    <img src="img/heart__empty.svg" class="game__heart" alt="Life" width="31" height="27">
-    <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-    <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
-  </div>
-</header>
-<section class="game">
+const screenTemplate = getDomElementFromString(`<section class="game">
   <p class="game__task">Найдите рисунок среди изображений</p>
   <form class="game__content  game__content--triple">
     <div class="game__option">
@@ -46,6 +28,10 @@ const screen = getDomElementFromString(`<header class="header">
   </ul>
 </section>`);
 
-Array.from(screen.querySelectorAll(`.game__option`)).forEach((x) => x.addEventListener(`click`, () => selectScreen(statsScreen)));
+const getScreen = () => {
+  const screen = screenTemplate.cloneNode(true);
+  Array.from(screen.querySelectorAll(`.game__option`)).forEach((x) => x.addEventListener(`click`, () => selectScreen(`stat`)));
+  return screen;
+};
 
-export default screen;
+export default getScreen;

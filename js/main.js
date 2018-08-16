@@ -1,4 +1,3 @@
-import {selectMainScreen as selectScreen} from './selectScreen.js';
-import introScreen from './intro.js';
+import selectScreen from './selectScreen.js';
 
-selectScreen(introScreen);
+selectScreen(`intro`);

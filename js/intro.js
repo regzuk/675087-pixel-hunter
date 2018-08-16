@@ -1,12 +1,15 @@
 import {getDomElementFromString} from './util.js';
-import {selectMainScreen as selectScreen} from './selectScreen.js';
-import greetingScreen from './greeting.js';
+import selectScreen from './selectScreen.js';
 
-const screen = getDomElementFromString(`<section class="intro">
+const screenTemplate = getDomElementFromString(`<section class="intro">
   <button class="intro__asterisk asterisk" type="button"><span class="visually-hidden">Продолжить</span>*</button>
   <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
 </section>`);
 
-screen.querySelector(`.intro__asterisk`).addEventListener(`click`, () => selectScreen(greetingScreen));
+const getScreen = () => {
+  const screen = screenTemplate.cloneNode(true);
+  screen.querySelector(`.intro__asterisk`).addEventListener(`click`, () => selectScreen(`greeting`));
+  return screen;
+};
 
-export default screen;
+export default getScreen;

@@ -1,17 +1,6 @@
 import {getDomElementFromString} from './util.js';
 
-const screen = getDomElementFromString(`<header class="header">
-  <button class="back">
-    <span class="visually-hidden">Вернуться к началу</span>
-    <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-      <use xlink:href="img/sprite.svg#arrow-left"></use>
-    </svg>
-    <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-      <use xlink:href="img/sprite.svg#logo-small"></use>
-    </svg>
-  </button>
-</header>
-<section class="result">
+const screenTemplate = getDomElementFromString(`<section class="result">
   <h2 class="result__title">Победа!</h2>
   <table class="result__table">
     <tr>
@@ -112,4 +101,9 @@ const screen = getDomElementFromString(`<header class="header">
   </table>
 </section>`);
 
-export default screen;
+const getScreen = () => {
+  const screen = screenTemplate.cloneNode(true);
+  return screen;
+};
+
+export default getScreen;
