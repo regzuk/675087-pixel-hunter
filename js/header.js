@@ -1,4 +1,5 @@
 import {getDomElementFromString} from './util.js';
+import selectScreen from './selectScreen.js';
 
 const backButton = getDomElementFromString(`<button class="back">
   <span class="visually-hidden">Вернуться к началу</span>
@@ -20,37 +21,16 @@ const lifes = getDomElementFromString(`<div class="game__lives">
 const headerTemplate = document.createElement(`header`);
 headerTemplate.classList.add(`header`);
 headerTemplate.appendChild(backButton);
-headerTemplate.appendChild(timer);
-headerTemplate.appendChild(lifes);
 
 
-const show = () => {
-  headerTemplate.style = ``;
+const getDOM = (withStat = false) => {
+  const header = headerTemplate.cloneNode(true);
+  header.querySelector(`button`).addEventListener(`click`, () => selectScreen(`greeting`));
+  if (withStat) {
+    header.appendChild(timer.cloneNode(true));
+    header.appendChild(lifes.cloneNode(true));
+  }
+  return header;
 };
 
-const hide = () => {
-  headerTemplate.style.display = `none`;
-};
-
-const showStat = () => {
-  timer.style = ``;
-  lifes.style = ``;
-};
-
-const hideStat = () => {
-  timer.style.display = `none`;
-  lifes.style.display = `none`;
-};
-
-hideStat();
-hide();
-
-const header = {
-  elem: headerTemplate,
-  show,
-  hide,
-  showStat,
-  hideStat
-};
-
-export default header;
+export default getDOM;

@@ -21,32 +21,29 @@ const screens = {
 const DEFAULT_SCREEN = `intro`;
 
 const mainElem = document.querySelector(`#main`);
-mainElem.appendChild(header.elem);
-header.elem.querySelector(`button`).addEventListener(`click`, () => selectScreen(`greeting`));
 
 let currentScreen = screens[DEFAULT_SCREEN]();
 mainElem.appendChild(currentScreen);
 
 const selectScreen = (screen = DEFAULT_SCREEN) => {
-  mainElem.removeChild(currentScreen);
-  currentScreen = screens[screen]();
-  mainElem.appendChild(currentScreen);
+  while (mainElem.firstChild) {
+    mainElem.removeChild(mainElem.firstChild);
+  }
+
   switch (screen) {
+    case `rules`:
+    case `stat`:
+      mainElem.appendChild(header());
+      break;
     case `gameOne`:
     case `gameTwo`:
     case `gameThree`:
-      header.show();
-      header.showStat();
+      mainElem.appendChild(header(true));
       break;
-    case `rules`:
-    case `stat`:
-      header.show();
-      header.hideStat();
-      break;
-    case `intro`:
-    case `greeting`:
-      header.hide();
   }
+
+  currentScreen = screens[screen]();
+  mainElem.appendChild(currentScreen);
 };
 
 
