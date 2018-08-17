@@ -1,5 +1,6 @@
 import {getDomElementFromString} from './util.js';
 import selectScreen from './selectScreen.js';
+import gameStat from './gameStat.js';
 
 const screenTemplate = getDomElementFromString(`<section class="game">
   <p class="game__task">Найдите рисунок среди изображений</p>
@@ -14,19 +15,9 @@ const screenTemplate = getDomElementFromString(`<section class="game">
       <img src="http://placehold.it/304x455" alt="Option 3" width="304" height="455">
     </div>
   </form>
-  <ul class="stats">
-    <li class="stats__result stats__result--wrong"></li>
-    <li class="stats__result stats__result--slow"></li>
-    <li class="stats__result stats__result--fast"></li>
-    <li class="stats__result stats__result--correct"></li>
-    <li class="stats__result stats__result--wrong"></li>
-    <li class="stats__result stats__result--unknown"></li>
-    <li class="stats__result stats__result--slow"></li>
-    <li class="stats__result stats__result--unknown"></li>
-    <li class="stats__result stats__result--fast"></li>
-    <li class="stats__result stats__result--unknown"></li>
-  </ul>
 </section>`);
+
+screenTemplate.appendChild(gameStat());
 
 const getScreen = () => {
   const screen = screenTemplate.cloneNode(true);
