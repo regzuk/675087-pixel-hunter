@@ -1,5 +1,6 @@
 import {getDomElementFromString} from './util.js';
-import selectScreen from './selectScreen.js';
+import {crossfade as selectScreen} from './selectScreen.js';
+
 
 const screenTemplate = getDomElementFromString(`<section class="intro">
   <button class="intro__asterisk asterisk" type="button"><span class="visually-hidden">Продолжить</span>*</button>

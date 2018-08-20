@@ -46,5 +46,19 @@ const selectScreen = (screen = DEFAULT_SCREEN) => {
   mainElem.appendChild(currentScreen);
 };
 
+const crossfade = (screen = DEFAULT_SCREEN) => {
+  const oldScreen = currentScreen;
+  oldScreen.style.position = `absolute`;
+  oldScreen.style.zIndex = `10`;
+  oldScreen.style.transition = `opacity 1s ease-in-out`;
+  oldScreen.style.opacity = `0`;
+  currentScreen = screens[screen]();
+  mainElem.appendChild(currentScreen);
+  oldScreen.addEventListener(`transitionend`, () => {
+    mainElem.removeChild(oldScreen);
+  });
+};
+
 
 export default selectScreen;
+export {crossfade};
