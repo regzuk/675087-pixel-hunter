@@ -28,6 +28,7 @@ const getScreen = () => {
 
   const rulesInput = screen.querySelector(`.rules__input`);
   rulesInput.addEventListener(`input`, () => {
+    rulesInput.value = rulesInput.value.trim();
     rulesBtn.disabled = (rulesInput.value.length > 3 && validateName(rulesInput.value)) ? false : true;
   });
 
