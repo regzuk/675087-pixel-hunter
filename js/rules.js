@@ -18,6 +18,8 @@ const screenTemplate = getDomElementFromString(`<section class="rules">
   </form>
 </section>`);
 
+const validateName = (name) => !name.match(/[\s!$%^&*()+|~=`{}\[\]:";'<>?,\/]/);
+
 const getScreen = () => {
   const screen = screenTemplate.cloneNode(true);
 
@@ -26,7 +28,7 @@ const getScreen = () => {
 
   const rulesInput = screen.querySelector(`.rules__input`);
   rulesInput.addEventListener(`input`, () => {
-    rulesBtn.disabled = (rulesInput.value !== ``) ? false : true;
+    rulesBtn.disabled = (rulesInput.value.length > 3 && validateName(rulesInput.value)) ? false : true;
   });
 
   return screen;
