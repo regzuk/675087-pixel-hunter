@@ -1,0 +1,7 @@
+
+const countPoints = () => {
+
+};
+
+
+export {countPoints};
