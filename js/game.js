@@ -1,6 +1,7 @@
 
-const countPoints = () => {
-
+const countPoints = (answers, lives) => {
+  answers = lives;
+  return -1;
 };
 
 
