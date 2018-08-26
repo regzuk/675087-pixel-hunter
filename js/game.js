@@ -2,7 +2,7 @@
   Answer structure
   answer = {
     isCorrect: true,
-    time: `fast`
+    time: 15
   }
 }
 */
@@ -15,9 +15,9 @@ const countPoints = (answers, lives) => {
     if (x.isCorrect) {
       points += 100;
       let addPointsMultiple = 0;
-      if (x.time === `fast`) {
+      if (x.time < 10) {
         addPointsMultiple = 1;
-      } else if (x.time === `slow`) {
+      } else if (x.time > 20) {
         addPointsMultiple = -1;
       }
       points += addPointsMultiple * 50;
