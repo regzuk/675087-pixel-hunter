@@ -1,4 +1,7 @@
+const GAMES_ROUND_COUNT = 10;
+const MAX_LIVES_COUNT = 3;
 const MAX_ROUND_TIME = 30;
+const BLINKED_TIME = 5;
 
 /*
   Answer structure
@@ -9,21 +12,27 @@ const MAX_ROUND_TIME = 30;
 }
 */
 const countPoints = (answers, lives) => {
-  if (!Array.isArray(answers) || answers.length !== 10 || (lives < 0 || lives > 3) ||
-  answers.slice().filter((x) => x.isCorrect === true).length < 7) {
+  if (!Array.isArray(answers) || typeof lives !== `number`) {
+    throw new Error(`Invalid data type`);
+  }
+
+  const correctAnswers = answers.slice().filter((x) => x.isCorrect === true);
+
+  if (lives < 0 || lives > 3 || answers.length - correctAnswers.length !== MAX_LIVES_COUNT - lives) {
+    throw new Error(`Invalid data value`);
+  }
+  if (answers.length !== GAMES_ROUND_COUNT || correctAnswers.length < 7) {
     return -1;
   }
-  return answers.slice().reduce((points, x) => {
-    if (x.isCorrect) {
-      points += 100;
-      let addPointsMultiple = 0;
-      if (x.time < 10) {
-        addPointsMultiple = 1;
-      } else if (x.time > 20) {
-        addPointsMultiple = -1;
-      }
-      points += addPointsMultiple * 50;
+  return correctAnswers.reduce((points, x) => {
+    points += 100;
+    let addPointsMultiple = 0;
+    if (x.time < 10) {
+      addPointsMultiple = 1;
+    } else if (x.time > 20) {
+      addPointsMultiple = -1;
     }
+    points += addPointsMultiple * 50;
     return points;
   }, 0) + 50 * lives;
 };
@@ -66,7 +75,7 @@ const Timer = function (maxTime = MAX_ROUND_TIME) {
       time--;
     }
 
-    if (time <= 5) {
+    if (time <= BLINKED_TIME) {
       isBlinked = true;
     }
 

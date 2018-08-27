@@ -2,6 +2,26 @@ import {assert} from 'chai';
 import {countPoints, updateLives, switchScreen, Timer} from './game.js';
 
 describe(`Game points counting`, () => {
+  it(`Invalid data exceptions`, () => {
+    assert.throw(() => countPoints(`answer`, 1), `Invalid data type`);
+    assert.throw(() => countPoints([{isCorrect: true, time: 25}], `1`), `Invalid data type`);
+  });
+  it(`Invalid value exceptions`, () => {
+    let answers = [{isCorrect: true, time: 15},
+      {isCorrect: true, time: 5},
+      {isCorrect: true, time: 15},
+      {isCorrect: true, time: 25},
+      {isCorrect: false, time: 15},
+      {isCorrect: true, time: 5},
+      {isCorrect: true, time: 15},
+      {isCorrect: true, time: 25},
+      {isCorrect: false, time: 15},
+      {isCorrect: true, time: 25}];
+    assert.throw(() => countPoints(answers.slice(1), 4), `Invalid data value`);
+    assert.throw(() => countPoints(answers, 4), `Invalid data value`);
+    assert.throw(() => countPoints(answers, -1), `Invalid data value`);
+    assert.throw(() => countPoints(answers, 2), `Invalid data value`);
+  });
   it(`should return -1 when answers are less than 10`, () => {
     let answers = [{isCorrect: true, time: 25},
       {isCorrect: true, time: 25},
@@ -22,10 +42,10 @@ describe(`Game points counting`, () => {
       {isCorrect: true, time: 15}];
     assert.equal(1150, countPoints(answers, 3));
   });
-  it(`should return -1 when 6 correct answers, 0 lives`, () => {
+  it(`should return 350 when 7 correct slow answers, 0 lives`, () => {
     let answers = [{isCorrect: true, time: 25},
       {isCorrect: true, time: 25},
-      {isCorrect: false, time: 25},
+      {isCorrect: true, time: 25},
       {isCorrect: false, time: 25},
       {isCorrect: true, time: 25},
       {isCorrect: true, time: 25},
@@ -33,7 +53,7 @@ describe(`Game points counting`, () => {
       {isCorrect: false, time: 25},
       {isCorrect: true, time: 25},
       {isCorrect: true, time: 25}];
-    assert.equal(-1, countPoints(answers, 0));
+    assert.equal(350, countPoints(answers, 0));
   });
   it(`should return 1650 when 10 correct answers with fast time, 3 lives`, () => {
     let answers = [{isCorrect: true, time: 5},
