@@ -1,4 +1,12 @@
 import {getDomElementFromString} from './util.js';
+import gameStat from './gameStat.js';
+
+// const gameStatRowTemplate = (number) =>
+
+// const statTableTemplate = (number, fastBonus = 0, slowBonus = 0, liveBonus = 0) => {
+//   const table = document.createElement(`table`);
+//   table.classList.add(`result__table`);
+// };
 
 const screenTemplate = getDomElementFromString(`<section class="result">
   <h2 class="result__title">Победа!</h2>
@@ -6,18 +14,6 @@ const screenTemplate = getDomElementFromString(`<section class="result">
     <tr>
       <td class="result__number">1.</td>
       <td colspan="2">
-        <ul class="stats">
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--correct"></li>
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--unknown"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--unknown"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--unknown"></li>
-        </ul>
       </td>
       <td class="result__points">× 100</td>
       <td class="result__total">900</td>
@@ -51,18 +47,6 @@ const screenTemplate = getDomElementFromString(`<section class="result">
     <tr>
       <td class="result__number">2.</td>
       <td>
-        <ul class="stats">
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--correct"></li>
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--unknown"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--wrong"></li>
-        </ul>
       </td>
       <td class="result__total"></td>
       <td class="result__total  result__total--final">fail</td>
@@ -72,18 +56,6 @@ const screenTemplate = getDomElementFromString(`<section class="result">
     <tr>
       <td class="result__number">3.</td>
       <td colspan="2">
-        <ul class="stats">
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--correct"></li>
-          <li class="stats__result stats__result--wrong"></li>
-          <li class="stats__result stats__result--unknown"></li>
-          <li class="stats__result stats__result--slow"></li>
-          <li class="stats__result stats__result--unknown"></li>
-          <li class="stats__result stats__result--fast"></li>
-          <li class="stats__result stats__result--unknown"></li>
-        </ul>
       </td>
       <td class="result__points">× 100</td>
       <td class="result__total">900</td>
@@ -100,6 +72,9 @@ const screenTemplate = getDomElementFromString(`<section class="result">
     </tr>
   </table>
 </section>`);
+
+Array.from(screenTemplate.querySelectorAll(`.result__table`))
+.forEach((x) => x.querySelector(`tr:first-child`).querySelector(`td:not([class])`).appendChild(gameStat()));
 
 const getScreen = () => {
   const screen = screenTemplate.cloneNode(true);
