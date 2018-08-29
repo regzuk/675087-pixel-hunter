@@ -1,6 +1,6 @@
 import {getDomElementFromString} from './util.js';
 import selectScreen from './selectScreen.js';
-import gameStat from './gameStat.js';
+import gameStat from './gameStatTemplate.js';
 
 const IMG_WIDTH = 304;
 const IMG_HEIGHT = 455;

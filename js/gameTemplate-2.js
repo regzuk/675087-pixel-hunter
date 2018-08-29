@@ -1,7 +1,7 @@
 import {getDomElementFromString} from './util.js';
 import getGameOptionTemplate from './gameOptionTemplate';
 import selectScreen from './selectScreen.js';
-import gameStat from './gameStat.js';
+import gameStat from './gameStatTemplate.js';
 
 const IMG_WIDTH = 705;
 const IMG_HEIGHT = 455;

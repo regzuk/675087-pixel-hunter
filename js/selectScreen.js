@@ -1,12 +1,12 @@
-import introScreen from './intro.js';
-import greetingScreen from './greeting.js';
-import rulesScreen from './rules.js';
-import gameOneScreen from './game-1.js';
-import gameTwoScreen from './game-2.js';
-import gameThreeScreen from './game-3.js';
-import statScreen from './stats.js';
+import introScreen from './introTemplate.js';
+import greetingScreen from './greetingTemplate.js';
+import rulesScreen from './rulesTemplate.js';
+import gameOneScreen from './gameTemplate-1.js';
+import gameTwoScreen from './gameTemplate-2.js';
+import gameThreeScreen from './gameTemplate-3.js';
+import statScreen from './statTemplate.js';
 
-import header from './header.js';
+import header from './headerTemplate.js';
 
 const screens = {
   intro: introScreen,
