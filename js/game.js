@@ -3,6 +3,8 @@ const MAX_LIVES_COUNT = 3;
 const MAX_ROUND_TIME = 30;
 const BLINKED_TIME = 5;
 
+const DEFAULT_LIVES_COUNT = 3;
+
 /*
   Answer structure
   answer = {
@@ -90,5 +92,19 @@ const Timer = function (maxTime = MAX_ROUND_TIME) {
   };
 };
 
+const Game = function (user) {
+
+  return {
+    user,
+    stat: [
+      [`fast`, `slow`, `correct`, `fail`],
+      [`fast`, `slow`, `correct`, `fail`],
+    ],
+    lives: DEFAULT_LIVES_COUNT,
+    questions: {},
+  };
+};
+
+const g = new Game();
 
 export {countPoints, updateLives, switchScreen, Timer};

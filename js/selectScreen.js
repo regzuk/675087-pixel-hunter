@@ -1,9 +1,7 @@
 import introScreen from './introTemplate.js';
 import greetingScreen from './greetingTemplate.js';
 import rulesScreen from './rulesTemplate.js';
-import gameOneScreen from './gameTemplate-1.js';
-import gameTwoScreen from './gameTemplate-2.js';
-import gameThreeScreen from './gameTemplate-3.js';
+import gameScreen from './gameTemplate.js';
 import statScreen from './statTemplate.js';
 
 import header from './headerTemplate.js';
@@ -12,9 +10,9 @@ const screens = {
   intro: introScreen,
   greeting: greetingScreen,
   rules: rulesScreen,
-  gameOne: gameOneScreen,
-  gameTwo: gameTwoScreen,
-  gameThree: gameThreeScreen,
+  gameOne: gameScreen,
+  gameTwo: gameScreen,
+  gameThree: gameScreen,
   stat: statScreen
 };
 
