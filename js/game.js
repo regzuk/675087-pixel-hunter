@@ -1,3 +1,6 @@
+import header from './headerTemplate.js';
+import gameScreen from './gameTemplate.js';
+
 const GAMES_ROUND_COUNT = 10;
 const MAX_LIVES_COUNT = 3;
 const MAX_ROUND_TIME = 30;
@@ -92,19 +95,66 @@ const Timer = function (maxTime = MAX_ROUND_TIME) {
   };
 };
 
-const Game = function (user) {
+const getQuestion = (arr) => {
+  const type = arr.length;
+  if (type > 3) {
+    throw new Error(`Invalid pictures count`);
+  }
 
   return {
-    user,
-    stat: [
-      [`fast`, `slow`, `correct`, `fail`],
-      [`fast`, `slow`, `correct`, `fail`],
-    ],
-    lives: DEFAULT_LIVES_COUNT,
-    questions: {},
+    type,
+    img: arr,
+    answer: null
   };
 };
 
-const g = new Game();
+const getQuestions = () => {
+  const arr = [];
+  arr.push(getQuestion([{src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`},
+    {src: `https://i.imgur.com/DiHM5Zb.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`},
+    {src: `https://k42.kn3.net/D2F0370D6.jpg`, type: `paint`},
+    {src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`},
+    {src: `https://i.imgur.com/DiHM5Zb.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`},
+    {src: `https://k42.kn3.net/D2F0370D6.jpg`, type: `paint`},
+    {src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`},
+    {src: `https://i.imgur.com/DiHM5Zb.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`}]));
+  arr.push(getQuestion([{src: `https://k32.kn3.net/5C7060EC5.jpg`, type: `paint`},
+    {src: `https://k42.kn3.net/D2F0370D6.jpg`, type: `paint`},
+    {src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`}]));
+  arr.push(getQuestion([{src: `http://i.imgur.com/1KegWPz.jpg`, type: `photo`},
+    {src: `https://i.imgur.com/DiHM5Zb.jpg`, type: `photo`}]));
+  return arr;
+};
 
-export {countPoints, updateLives, switchScreen, Timer};
+const mainElem = document.querySelector(`#main`);
+
+const Game = {
+  user: ``,
+  stat: [
+    {game: [`fast`, `slow`, `correct`, `fail`, `fast`, `slow`, `correct`, `fail`, `fast`, `slow`], lives: 2},
+    {game: [`fast`, `slow`, `correct`, `fail`, `fast`, `slow`, `correct`, `fail`, `fast`, `slow`], lives: 1},
+  ],
+  lives: DEFAULT_LIVES_COUNT,
+  questions: getQuestions(),
+  currentQuestion: -1,
+  get nextQuestion() {
+    this.currentQuestion++;
+    return (this.currentQuestion === this.question.length) ? this.question[this.currentQuestion] : -1;
+  },
+  nextGameScreen() {
+    while (mainElem.firstChild) {
+      mainElem.removeChild(mainElem.firstChild);
+    }
+    mainElem.appendChild(header(true));
+    mainElem.appendChild(gameScreen(this.nextQuestion));
+  },
+};
+
+export {countPoints, updateLives, switchScreen, Timer, Game};

@@ -1,5 +1,5 @@
 import {getDomElementFromString} from './util.js';
-import selectScreen from './selectScreen.js';
+import {Game} from './game.js';
 
 const rulesDescriptionTemplate = getDomElementFromString(`<h2 class="rules__title">Правила</h2>
 <ul class="rules__description">
@@ -28,7 +28,10 @@ const getScreen = () => {
   const screen = screenTemplate.cloneNode(true);
 
   const rulesBtn = screen.querySelector(`.rules__button`);
-  rulesBtn.addEventListener(`click`, () => selectScreen(`gameOne`));
+  rulesBtn.addEventListener(`click`, () => {
+    Game.user = rulesInput.value;
+    Game.nextGameScreen();
+  });
 
   const rulesInput = screen.querySelector(`.rules__input`);
   rulesInput.addEventListener(`input`, () => {

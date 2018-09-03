@@ -27,7 +27,7 @@ const screenTemplate = getDomElementFromString(`<section class="game">
 //   answer: answerData,
 // };
 
-const getScreen = (question = {type: 1}) => {
+const getScreen = (question) => {
   const screen = screenTemplate.cloneNode(true);
   const gameForm = screen.querySelector(`.game__content`);
   const gameTask = screen.querySelector(`.game__task`);
