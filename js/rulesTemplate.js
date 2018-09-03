@@ -28,9 +28,9 @@ const getScreen = () => {
   const screen = screenTemplate.cloneNode(true);
 
   const rulesBtn = screen.querySelector(`.rules__button`);
-  rulesBtn.addEventListener(`click`, () => {
-    Game.user = rulesInput.value;
-    Game.nextGameScreen();
+  rulesBtn.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    Game.start(rulesInput.value);
   });
 
   const rulesInput = screen.querySelector(`.rules__input`);
@@ -42,4 +42,4 @@ const getScreen = () => {
   return screen;
 };
 
-export default getScreen;
+export default getScreen();

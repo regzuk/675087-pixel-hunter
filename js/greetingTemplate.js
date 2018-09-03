@@ -1,5 +1,5 @@
 import {getDomElementFromString} from './util.js';
-import selectScreen from './selectScreen.js';
+import selectScreen from './screen.js';
 
 const screenTemplate = getDomElementFromString(`<section class="greeting central--blur">
   <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
@@ -21,11 +21,6 @@ const screenTemplate = getDomElementFromString(`<section class="greeting central
     </svg>
   </button>
 </section>`);
+screenTemplate.querySelector(`.greeting__continue`).addEventListener(`click`, () => selectScreen(`rules`));
 
-const getScreen = () => {
-  const screen = screenTemplate.cloneNode(true);
-  screen.querySelector(`.greeting__continue`).addEventListener(`click`, () => selectScreen(`rules`));
-  return screen;
-};
-
-export default getScreen;
+export default screenTemplate;

@@ -4,44 +4,48 @@ import rulesScreen from './rulesTemplate.js';
 import gameScreen from './gameTemplate.js';
 import statScreen from './statTemplate.js';
 
-import header from './headerTemplate.js';
+import headerElem from './headerTemplate.js';
 
 const screens = {
   intro: introScreen,
   greeting: greetingScreen,
   rules: rulesScreen,
-  gameOne: gameScreen,
-  gameTwo: gameScreen,
-  gameThree: gameScreen,
-  stat: statScreen
+  game: gameScreen,
+  stat: statScreen,
 };
 
 const DEFAULT_SCREEN = `intro`;
 
 const mainElem = document.querySelector(`#main`);
 
-let currentScreen = screens[DEFAULT_SCREEN]();
+let currentScreen = screens[DEFAULT_SCREEN];
 mainElem.appendChild(currentScreen);
 
-const selectScreen = (screen = DEFAULT_SCREEN) => {
-  while (mainElem.firstChild) {
-    mainElem.removeChild(mainElem.firstChild);
+const showHeader = () => {
+  if (mainElem.firstChild) {
+    mainElem.insertBefore(headerElem, mainElem.firstChild);
+  } else {
+    mainElem.appendChild(headerElem);
   }
-
-  switch (screen) {
-    case `rules`:
-    case `stat`:
-      mainElem.appendChild(header());
-      break;
-    case `gameOne`:
-    case `gameTwo`:
-    case `gameThree`:
-      mainElem.appendChild(header(true));
-      break;
+};
+const hideHeader = () => {
+  if (mainElem.firstChild === headerElem) {
+    mainElem.removeChild(headerElem);
   }
+};
 
-  currentScreen = screens[screen]();
+const selectScreen = (screen = DEFAULT_SCREEN, options = null) => {
+
+  mainElem.removeChild(currentScreen);
+
+  currentScreen = (screen === `game`) ? screens[screen](options) : screens[screen];
   mainElem.appendChild(currentScreen);
+
+  if (screen === `rules`) {
+    showHeader();
+  } else if (screen === `greeting`) {
+    hideHeader();
+  }
 };
 
 const crossfade = (screen = DEFAULT_SCREEN) => {
@@ -50,7 +54,7 @@ const crossfade = (screen = DEFAULT_SCREEN) => {
   oldScreen.style.zIndex = `10`;
   oldScreen.style.transition = `opacity 1s ease-in-out`;
   oldScreen.style.opacity = `0`;
-  currentScreen = screens[screen]();
+  currentScreen = screens[screen];
   mainElem.appendChild(currentScreen);
   oldScreen.addEventListener(`transitionend`, () => {
     mainElem.removeChild(oldScreen);

@@ -1,5 +1,5 @@
-import header from './headerTemplate.js';
-import gameScreen from './gameTemplate.js';
+import {showGameHeaderStat, hideGameHeaderStat} from './headerTemplate.js';
+import selectScreen from './screen.js';
 
 const GAMES_ROUND_COUNT = 10;
 const MAX_LIVES_COUNT = 3;
@@ -146,14 +146,28 @@ const Game = {
   currentQuestion: -1,
   get nextQuestion() {
     this.currentQuestion++;
-    return (this.currentQuestion === this.question.length) ? this.question[this.currentQuestion] : -1;
+    return (this.currentQuestion < this.questions.length) ? this.questions[this.currentQuestion] : -1;
   },
-  nextGameScreen() {
-    while (mainElem.firstChild) {
-      mainElem.removeChild(mainElem.firstChild);
+  nextRound() {
+    selectScreen(`game`, this.nextQuestion);
+  },
+  start(user) {
+    this.lives = DEFAULT_LIVES_COUNT;
+    this.currentQuestion = -1;
+    this.user = user;
+    showGameHeaderStat();
+    this.nextRound();
+  },
+  checkAnswer(answer) {
+    const question = this.questions[this.currentQuestion];
+    switch (question.type) {
+      case 1:
+      case 2:
+        if (question.img.every((x, i) => x.type === answer[i])) {
+          this.nextRound();
+        }
+        break;
     }
-    mainElem.appendChild(header(true));
-    mainElem.appendChild(gameScreen(this.nextQuestion));
   },
 };
 

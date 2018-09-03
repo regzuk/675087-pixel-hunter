@@ -1,7 +1,8 @@
 import {getDomElementFromString} from './util.js';
 import getGameOptionTemplate from './gameOptionTemplate';
-import selectScreen from './selectScreen.js';
+import selectScreen from './screen.js';
 import gameStat from './gameStatTemplate.js';
+import {Game} from './game.js';
 
 const GAME_TASK = {
   1: `Угадайте для каждого изображения фото или рисунок?`,
@@ -9,8 +10,8 @@ const GAME_TASK = {
   3: `Найдите рисунок среди изображений`,
 };
 const IMG_SIZE = {
-  1: {width: 468, height: 458},
-  2: {width: 705, height: 455},
+  2: {width: 468, height: 458},
+  1: {width: 705, height: 455},
   3: {width: 304, height: 455},
 };
 
@@ -33,7 +34,7 @@ const getScreen = (question) => {
   const gameTask = screen.querySelector(`.game__task`);
   gameTask.text = GAME_TASK[question.type];
   switch (question.type) {
-    case 2:
+    case 1:
       gameForm.classList.add(`game__content--wide`);
       break;
     case 3:
@@ -41,27 +42,30 @@ const getScreen = (question) => {
       break;
   }
   const options = [];
+  // const answer = [];
   question.img.forEach((x, i) => {
     options.push(getGameOptionTemplate(`question${i + 1}`, IMG_SIZE[question.type].width, IMG_SIZE[question.type].height, x.src));
     gameForm.appendChild(options[i]);
   });
-
-  if (question.type === 3) {
-    Array.from(screen.querySelectorAll(`.game__option`)).forEach((x) => x.addEventListener(`click`, () => {
-      x.classList.add(`game__option--selected`);
-      selectScreen(`stat`);
-    }));
-  } else {
-    const onRadioChange = (qOptions) => {
-      if (qOptions[0].some((x) => x.checked) && qOptions[1].some((x) => x.checked)) {
-        selectScreen(`gameTwo`);
-      }
-    };
-    options.map((x, i) => Array.from(x.querySelectorAll(`input[name=question${i + 1}]`))).forEach((y) => y.forEach((z) => z.addEventListener(`change`, () => {
-      onRadioChange(y);
-    })));
-  }
+  // ПЕРЕПИСАТЬ
+  // if (question.type === 3) {
+  //   Array.from(screen.querySelectorAll(`.game__option`)).forEach((x) => x.addEventListener(`click`, () => {
+  //     x.classList.add(`game__option--selected`);
+  //     selectScreen(`stat`);
+  //   }));
+  // } else {
+  //   const onRadioChange = (qOptions) => {
+  //     if (qOptions[0].some((x) => x.checked) && qOptions[1].some((x) => x.checked)) {
+  //       selectScreen(`gameTwo`);
+  //     }
+  //   };
+  //
+  //   options.forEach((x, i) => Array.from(x.querySelectorAll(`input[name=question${i + 1}]`)).forEach((y) => y.addEventListener(`change`, () => {
+  //     onRadioChange(y);
+  //   })));
+  // }
   screen.appendChild(gameStat());
+  return screen;
 };
 
 export default getScreen;

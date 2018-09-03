@@ -1,5 +1,5 @@
 import {getDomElementFromString} from './util.js';
-import selectScreen from './selectScreen.js';
+import selectScreen from './screen.js';
 
 const backButton = getDomElementFromString(`<button class="back">
   <span class="visually-hidden">Вернуться к началу</span>
@@ -12,7 +12,7 @@ const backButton = getDomElementFromString(`<button class="back">
 </button>`);
 
 const timer = getDomElementFromString(`<div class="game__timer">NN</div>`);
-const lifes = getDomElementFromString(`<div class="game__lives">
+const lives = getDomElementFromString(`<div class="game__lives">
   <img src="img/heart__empty.svg" class="game__heart" alt=" Missed Life" width="31" height="27">
   <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
   <img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">
@@ -20,17 +20,20 @@ const lifes = getDomElementFromString(`<div class="game__lives">
 
 const headerTemplate = document.createElement(`header`);
 headerTemplate.classList.add(`header`);
+
+backButton.addEventListener(`click`, () => selectScreen(`greeting`));
+
 headerTemplate.appendChild(backButton);
 
-
-const getDOM = (withStat = false) => {
-  const header = headerTemplate.cloneNode(true);
-  header.querySelector(`button`).addEventListener(`click`, () => selectScreen(`greeting`));
-  if (withStat) {
-    header.appendChild(timer.cloneNode(true));
-    header.appendChild(lifes.cloneNode(true));
-  }
-  return header;
+const showGameHeaderStat = () => {
+  headerTemplate.appendChild(timer);
+  headerTemplate.appendChild(lives);
 };
 
-export default getDOM;
+const hideGameHeaderStat = () => {
+  headerTemplate.removeChild(timer);
+  headerTemplate.removeChild(lives);
+};
+
+export default headerTemplate;
+export {showGameHeaderStat, hideGameHeaderStat};
