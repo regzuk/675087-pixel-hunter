@@ -1,6 +1,6 @@
 import {getDomElementFromString} from './util.js';
 export default (nameOption, width, height, imgSrc, isTriple = false) => (isTriple) ? getDomElementFromString(`<div class="game__option">
-  <img src=""${imgSrc}"" alt="${nameOption}" width="${width}" height="${height}">
+  <img src="${imgSrc}" alt="${nameOption}" width="${width}" height="${height}">
 </div>`) : getDomElementFromString(`<div class="game__option">
     <img src="${imgSrc}" alt="${nameOption}" width="${width}" height="${height}">
     <label class="game__answer game__answer--photo">

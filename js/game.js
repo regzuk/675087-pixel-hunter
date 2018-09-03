@@ -133,8 +133,6 @@ const getQuestions = () => {
   return arr;
 };
 
-const mainElem = document.querySelector(`#main`);
-
 const Game = {
   user: ``,
   stat: [
@@ -164,6 +162,13 @@ const Game = {
       case 1:
       case 2:
         if (question.img.every((x, i) => x.type === answer[i])) {
+          this.nextRound();
+        }
+        break;
+      case 3:
+        const countPhoto = question.img.filter((x) => x.type === `photo`).length;
+        const isPhoto = question.img[answer].type === `photo`;
+        if ((countPhoto === 1) ? isPhoto : !isPhoto) {
           this.nextRound();
         }
         break;
