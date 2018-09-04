@@ -1,4 +1,4 @@
-import {showGameHeaderStat, hideGameHeaderStat} from './headerTemplate.js';
+import {showGameHeaderStat, hideGameHeaderStat, updateHeaderLives} from './headerTemplate.js';
 import selectScreen from './screen.js';
 
 const GAMES_ROUND_COUNT = 10;
@@ -156,6 +156,10 @@ const Game = {
     showGameHeaderStat();
     this.nextRound();
   },
+  finish() {
+    hideGameHeaderStat();
+    selectScreen(`stat`);
+  },
   checkAnswer(answer) {
     const question = this.questions[this.currentQuestion];
     switch (question.type) {
@@ -163,6 +167,8 @@ const Game = {
       case 2:
         if (question.img.every((x, i) => x.type === answer[i])) {
           this.nextRound();
+        } else {
+          this.checkError();
         }
         break;
       case 3:
@@ -170,10 +176,21 @@ const Game = {
         const isPhoto = question.img[answer].type === `photo`;
         if ((countPhoto === 1) ? isPhoto : !isPhoto) {
           this.nextRound();
+        } else {
+          this.checkError();
         }
         break;
     }
   },
+  checkError() {
+    this.lives--;
+    if (this.lives >= 0) {
+      updateHeaderLives(this.lives);
+      this.nextRound();
+    } else {
+      this.finish();
+    }
+  },
 };
 
-export {countPoints, updateLives, switchScreen, Timer, Game};
+export {countPoints, updateLives, switchScreen, Timer, Game, DEFAULT_LIVES_COUNT};

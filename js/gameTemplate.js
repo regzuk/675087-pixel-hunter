@@ -1,6 +1,5 @@
 import {getDomElementFromString} from './util.js';
 import getGameOptionTemplate from './gameOptionTemplate';
-import selectScreen from './screen.js';
 import gameStat from './gameStatTemplate.js';
 import {Game} from './game.js';
 
