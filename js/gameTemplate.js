@@ -72,7 +72,7 @@ const getScreen = (question) => {
     const inputOptions = options.map((x) => Array.from(x.querySelectorAll(`input`)));
     inputOptions.forEach((x) => x.forEach((y) => y.addEventListener(`change`, () => onRadioChange(inputOptions))));
   }
-  screen.appendChild(gameStat());
+  screen.appendChild(gameStat(Game.answers));
   return screen;
 };
 

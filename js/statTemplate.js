@@ -1,5 +1,6 @@
 import {getDomElementFromString} from './util.js';
 import gameStat from './gameStatTemplate.js';
+import {countPoints ,Game} from './game.js';
 
 const FAST_BONUS_STR = `Бонус за скорость`;
 const LIVE_BONUS_STR = `Бонус за жизни`;
@@ -14,7 +15,8 @@ const bonusRowTemplate = (str, bonusType, bonus) => `<tr>
 </tr>`;
 
 
-const statTableTemplate = (number, result, fastBonus = 0, slowBonus = 0, liveBonus = 0) => {
+const statTableTemplate = (number, answers, lives) => {
+  const points = countPoints(answers, lives);
   const table = document.createElement(`table`);
   table.classList.add(`result__table`);
   table.insertAdjacentHTML(`beforeend`, `<tr>
@@ -22,23 +24,25 @@ const statTableTemplate = (number, result, fastBonus = 0, slowBonus = 0, liveBon
     <td colspan="2">
     </td>
     <td class="result__points">× 100</td>
-    <td class="result__total">${result}</td>
+    <td class="result__total">${answers.filter((x) => x.isCorrect).length}</td>
   </tr>`);
-  table.querySelector(`td:not([class])`).appendChild(gameStat());
-  if (fastBonus !== 0) {
-    table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(FAST_BONUS_STR, `fast`, 1));
+  table.querySelector(`td:not([class])`).appendChild(gameStat(answers));
+  if (answers.length === 10 && answers.filter((x) => !x.isCorrect).length < 4) {
+    const fastCount = answers.filter((x) => x.isCorrect && x.time < 10).length;
+    if (fastCount > 0) {
+      table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(FAST_BONUS_STR, `fast`, fastCount));
+    }
+    if (lives > 0) {
+      table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(LIVE_BONUS_STR, `alive`, lives));
+    }
+    const slowCount = answers.filter((x) => x.isCorrect && x.time > 20).length;
+    if (slowCount > 0) {
+      table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(SLOW_BONUS_STR, `slow`, slowCount));
+    }
   }
-  if (liveBonus !== 0) {
-    table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(LIVE_BONUS_STR, `alive`, 2));
-  }
-  if (slowBonus !== 0) {
-    table.insertAdjacentHTML(`beforeend`, bonusRowTemplate(SLOW_BONUS_STR, `slow`, -1));
-  }
-  if (result !== `fail`) {
-    table.insertAdjacentHTML(`beforeend`, `<tr>
-      <td colspan="5" class="result__total  result__total--final">${result + fastBonus * 50 + liveBonus * 50 - slowBonus * 50}</td>
-    </tr>`);
-  }
+  table.insertAdjacentHTML(`beforeend`, `<tr>
+    <td colspan="5" class="result__total  result__total--final">${(points > 0) ? points : `FAIL`}</td>
+  </tr>`);
   return table;
 };
 
@@ -47,13 +51,14 @@ const screenTemplate = getDomElementFromString(`<section class="result">
 
 </section>`);
 
-screenTemplate.appendChild(statTableTemplate(1, 900, 1, 1, 2));
-screenTemplate.appendChild(statTableTemplate(2, `fail`));
-screenTemplate.appendChild(statTableTemplate(3, 900, 1, 1, 2));
 
-const getScreen = () => {
-  const screen = screenTemplate.cloneNode(true);
-  return screen;
+const updateStat = () => {
+  while (screenTemplate.firstChild) {
+    screenTemplate.removeChild(screenTemplate.firstChild);
+  }
+  screenTemplate.appendChild(statTableTemplate(1, Game.answers, Game.lives));
+  Game.stat.forEach((x, i) => screenTemplate.appendChild(statTableTemplate(i + 2, x.game, x.lives)));
 };
 
-export default getScreen;
+export default screenTemplate;
+export {updateStat};

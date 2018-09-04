@@ -15,7 +15,7 @@ const backButton = getDomElementFromString(`<button class="back">
   </svg>
 </button>`);
 
-const timer = getDomElementFromString(`<div class="game__timer">NN</div>`);
+const timer = getDomElementFromString(`<div class="game__timer">15</div>`);
 // const life = getDomElementFromString(`<img src="img/heart__full.svg" class="game__heart" alt="Life" width="31" height="27">`);
 const lives = document.createElement(`div`);
 lives.classList.add(`game__lives`);

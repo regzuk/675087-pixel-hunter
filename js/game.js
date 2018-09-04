@@ -1,5 +1,6 @@
 import {showGameHeaderStat, hideGameHeaderStat, updateHeaderLives} from './headerTemplate.js';
 import selectScreen from './screen.js';
+import {updateStat} from './statTemplate.js'
 
 const GAMES_ROUND_COUNT = 10;
 const MAX_LIVES_COUNT = 3;
@@ -23,9 +24,9 @@ const countPoints = (answers, lives) => {
 
   const correctAnswers = answers.slice().filter((x) => x.isCorrect === true);
 
-  if (lives < 0 || lives > 3 || answers.length - correctAnswers.length !== MAX_LIVES_COUNT - lives) {
-    throw new Error(`Invalid data value`);
-  }
+  // if (lives < 0 || lives > 3 || answers.length - correctAnswers.length !== MAX_LIVES_COUNT - lives) {
+  //   throw new Error(`Invalid data value`);
+  // }
   if (answers.length !== GAMES_ROUND_COUNT || correctAnswers.length < 7) {
     return -1;
   }
@@ -133,31 +134,51 @@ const getQuestions = () => {
   return arr;
 };
 
+const ANSWERS = [{isCorrect: true, time: 15},
+  {isCorrect: true, time: 5},
+  {isCorrect: false, time: 15},
+  {isCorrect: true, time: 15},
+  {isCorrect: true, time: 15},
+  {isCorrect: false, time: 15},
+  {isCorrect: true, time: 25},
+  {isCorrect: true, time: 15},
+  {isCorrect: true, time: 25},
+  {isCorrect: true, time: 15}];
+
 const Game = {
   user: ``,
   stat: [
-    {game: [`fast`, `slow`, `correct`, `fail`, `fast`, `slow`, `correct`, `fail`, `fast`, `slow`], lives: 2},
-    {game: [`fast`, `slow`, `correct`, `fail`, `fast`, `slow`, `correct`, `fail`, `fast`, `slow`], lives: 1},
+    {game: ANSWERS, lives: 2},
+    {game: ANSWERS, lives: 1},
   ],
   lives: DEFAULT_LIVES_COUNT,
   questions: getQuestions(),
+  answers: [],
   currentQuestion: -1,
   get nextQuestion() {
     this.currentQuestion++;
-    return (this.currentQuestion < this.questions.length) ? this.questions[this.currentQuestion] : -1;
+    return (this.currentQuestion < this.questions.length) ? this.questions[this.currentQuestion] : null;
   },
   nextRound() {
-    selectScreen(`game`, this.nextQuestion);
+    const next = this.nextQuestion;
+    if (next) {
+      selectScreen(`game`, next);
+    } else {
+      this.finish();
+    }
   },
   start(user) {
     this.lives = DEFAULT_LIVES_COUNT;
     this.currentQuestion = -1;
     this.user = user;
+    this.answers = [];
     showGameHeaderStat();
     this.nextRound();
   },
   finish() {
     hideGameHeaderStat();
+    // this.points = countPoints(this.answers, this.lives);
+    updateStat();
     selectScreen(`stat`);
   },
   checkAnswer(answer) {
@@ -166,8 +187,10 @@ const Game = {
       case 1:
       case 2:
         if (question.img.every((x, i) => x.type === answer[i])) {
+          this.answers.push({isCorrect: true, time: 15});
           this.nextRound();
         } else {
+          this.answers.push({isCorrect: false, time: 15});
           this.checkError();
         }
         break;
@@ -175,8 +198,10 @@ const Game = {
         const countPhoto = question.img.filter((x) => x.type === `photo`).length;
         const isPhoto = question.img[answer].type === `photo`;
         if ((countPhoto === 1) ? isPhoto : !isPhoto) {
+          this.answers.push({isCorrect: true, time: 5});
           this.nextRound();
         } else {
+          this.answers.push({isCorrect: false, time: 15});
           this.checkError();
         }
         break;
