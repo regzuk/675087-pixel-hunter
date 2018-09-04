@@ -1,6 +1,6 @@
 import {getDomElementFromString} from './util.js';
 import gameStat from './gameStatTemplate.js';
-import {countPoints ,Game} from './game.js';
+import {countPoints, Game} from './game.js';
 
 const FAST_BONUS_STR = `Бонус за скорость`;
 const LIVE_BONUS_STR = `Бонус за жизни`;

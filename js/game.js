@@ -1,9 +1,8 @@
 import {showGameHeaderStat, hideGameHeaderStat, updateHeaderLives} from './headerTemplate.js';
 import selectScreen from './screen.js';
-import {updateStat} from './statTemplate.js'
+import {updateStat} from './statTemplate.js';
 
 const GAMES_ROUND_COUNT = 10;
-const MAX_LIVES_COUNT = 3;
 const MAX_ROUND_TIME = 30;
 const BLINKED_TIME = 5;
 
