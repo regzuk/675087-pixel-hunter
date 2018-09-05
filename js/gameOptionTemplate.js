@@ -13,19 +13,5 @@ export default (nameOption, width, height, imgSrc, isTriple = false) => {
       <span>Рисунок</span>
     </label>
   </div>`);
-  const image = option.querySelector(`img`);
-  image.addEventListener(`load`, () => {
-    const size = resize({width, height}, {width: image.naturalWidth, height: image.naturalHeight});
-    image.width = size.width;
-    image.height = size.height;
-  });
   return option;
-};
-
-const resize = (screen, img) => {
-  if (screen.width >= img.width) {
-    return img;
-  }
-  const r = screen.width / img.width;
-  return {width: screen.width, height: Math.floor(img.height * r)};
 };
