@@ -1,3 +1,3 @@
-import selectScreen from './screen.js';
+import introScreen from './intro-screen.js';
 
-selectScreen();
+introScreen();
