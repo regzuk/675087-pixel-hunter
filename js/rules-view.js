@@ -28,6 +28,7 @@ class RulesView extends AbstractView {
     const btn = this.element.querySelector(`.rules__button`);
     btn.addEventListener(`click`, (evt) => {
       evt.preventDefault();
+      this.userName = input.value;
       this.startGame();
     });
 

@@ -1,13 +1,15 @@
 import RulesView from './rules-view.js';
 import {show} from './util.js';
-// import greetingScreen from './greeting-screen.js';
+import header from './header-screen.js';
+import Game from './Game.js';
+
+const rulesView = new RulesView();
+
+rulesView.startGame = () => {
+  const game = new Game(rulesView.userName);
+};
 
 export default () => {
-  const rulesView = new RulesView();
-
-  rulesView.startGame = () => {
-    alert(`start`);
-  };
-
+  header.show();
   show(rulesView);
 };

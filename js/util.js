@@ -1,15 +1,3 @@
-const getDomElementFromString = (string, tag = `div`) => {
-  const div = document.createElement(tag);
-  div.insertAdjacentHTML(`afterbegin`, string);
-
-  if (div.childNodes.length === 1) {
-    return div.firstChild;
-  }
-  const fragment = document.createDocumentFragment();
-  Array.from(div.childNodes).forEach((x) => fragment.appendChild(x));
-  return fragment;
-};
-
 const mainElem = document.querySelector(`#main`);
 
 const show = (view) => {
@@ -31,4 +19,18 @@ const crossfadeShow = (view) => {
   });
 };
 
-export {getDomElementFromString, show, crossfadeShow};
+const showBefore = (view) => {
+  if (mainElem.firstChild) {
+    mainElem.insertBefore(view.element, mainElem.firstChild);
+  } else {
+    mainElem.appendChild(view.element);
+  }
+};
+
+const removeFirst = () => {
+  if (mainElem.firstChild) {
+    mainElem.removeChild(mainElem.firstChild);
+  }
+};
+
+export {show, crossfadeShow, showBefore, removeFirst};
