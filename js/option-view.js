@@ -32,8 +32,8 @@ class OptionView extends AbstractView {
   }
 
   bind() {
-    Array.from(this.element.querySelectorAll(`label`)).forEach((x) => {
-      x.addEventListener(`click`, this.isCorrect(this.id, x.querySelector(`input`).value));
+    Array.from(this.element.querySelectorAll(`input`)).forEach((x) => {
+      x.addEventListener(`change`, () => this.isCorrect(this.id, x.value));
     });
   }
 
@@ -69,7 +69,7 @@ class TripleOptionView extends OptionView {
   }
 
   bind() {
-    this.element.querySelector(`img`).addEventListener(`click`, this.isCorrectTriple(this.id));
+    this.element.querySelector(`img`).addEventListener(`click`, () => this.isCorrectTriple(this.id));
   }
 }
 

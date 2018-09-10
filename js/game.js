@@ -4,6 +4,8 @@ import QuestionView from './question-view.js';
 const DEFAULT_LIVES_COUNT = 3;
 const DEFAULT_QUESTIONS_COUNT = 10;
 
+let game = null;
+
 class Image {
   constructor(imgSrc, imgType) {
     this.type = imgType;
@@ -60,13 +62,7 @@ class Game {
     this.answers = [];
     this.userStat = [];
 
-    const game = new QuestionView(this.nextQuestion);
-    game.checkAnswer = (answer) => {
-      this.answers.push(answer);
-      // show(new QuestionView(this.nextQuestion));
-      alert('aaa')
-    };
-    show(game);
+    // alert('aaa');
   }
 
   get nextQuestion() {
@@ -75,9 +71,20 @@ class Game {
   }
 
   showQuestion() {
+    const q = new QuestionView(this.nextQuestion);
+    q.checkAnswer = (answer) => {
+      this.answers.push(answer);
+      this.showQuestion();
+    };
+    show(q);
+  }
 
+  static start(user) {
+    game = new Game(user);
+    game.showQuestion();
   }
 
 }
 
 export default Game;
+export {Answer};

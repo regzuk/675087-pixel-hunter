@@ -1,5 +1,6 @@
 import {AbstractView} from './abstract-view.js';
 import OptionView from './option-view.js';
+import {Answer} from './game.js';
 
 const GAME_TASK = {
   normal: `Угадайте для каждого изображения фото или рисунок?`,
@@ -30,6 +31,9 @@ class QuestionView extends AbstractView {
       this.bind();
       this.addTitle();
       this.addOptions();
+      if (this.type !== `normal`) {
+        this._element.querySelector(`form`).classList.add(`game__content--${this.type}`)
+      }
     }
     return this._element;
   }
@@ -54,8 +58,14 @@ class QuestionView extends AbstractView {
         this.answer[name].answer = value;
         if (this.answer.filter((y) => y.answer === undefined).length === 0) {
           const isCorrect = this.answer.filter((z) => z.answer !== z.correct).length === 0;
-          this.checkAnswer({isCorrect, time: 15});
+          // this.checkAnswer({isCorrect, time: 15});
+          this.checkAnswer(new Answer(isCorrect, 15));
         }
+      };
+      x.isCorrectTriple = (id) => {
+        const type = this.img[id].imgType;
+        const isCorrect = this.img.filter((y) => y.type === type).length === 1;
+        this.checkAnswer(new Answer(isCorrect, 15));
       };
     });
     options.forEach((x) => gameContent.appendChild(x.element));
